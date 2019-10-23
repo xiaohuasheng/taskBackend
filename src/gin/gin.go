@@ -19,6 +19,16 @@ func WebMain() {
 			"message": "pong",
 		})
 	})
+	r.POST("/form", func(c *gin.Context) {
+		username := c.DefaultPostForm("username", "xhs")
+		password := c.DefaultPostForm("password", "000000") // 可设置默认值
+
+		fmt.Println("username:" + username)
+		c.JSON(http.StatusOK, gin.H{
+			"username": username,
+			"password": password,
+		})
+	})
 	//启动路由 设定端口
 	Cors()
 	//运行启动端口

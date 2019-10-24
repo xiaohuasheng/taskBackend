@@ -12,11 +12,11 @@ func InitRouter() *gin.Engine {
 
 	router.GET("/tasks", GetTasksApi)
 
-	//router.GET("/task/:id", GetTaskApi)
+	router.GET("/task/:id", GetTaskApi)
 
-	//router.PUT("/task/:id", ModTaskApi)
+	router.PUT("/task/:id", ModTaskApi)
 
-	//router.DELETE("/task/:id", DelTaskApi)
+	router.DELETE("/task/:id", DelTaskApi)
 
 	return router
 }

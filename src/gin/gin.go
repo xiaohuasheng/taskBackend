@@ -1,34 +1,22 @@
 package gin
 
 import (
+	. "db_utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 	"net/http"
+	. "router"
 	"strings"
 )
 
 func WebMain() {
-
-	// 允许使用跨域请求	 全局中间件
-	//router.Use(cors.Default())
-	// 传参 设定路由组 允许路由组使用路由
-	r := gin.Default()
+	db := GetDB()
+	defer db.Close()
+	r := InitRouter()
+	//允许使用跨域请求	 全局中间件
+	//传参 设定路由组 允许路由组使用路由
 	r.Use(Cors())
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.POST("/form", func(c *gin.Context) {
-		username := c.DefaultPostForm("username", "xhs")
-		password := c.DefaultPostForm("password", "000000") // 可设置默认值
-
-		fmt.Println("username:" + username)
-		c.JSON(http.StatusOK, gin.H{
-			"username": username,
-			"password": password,
-		})
-	})
 	//启动路由 设定端口
 	Cors()
 	//运行启动端口

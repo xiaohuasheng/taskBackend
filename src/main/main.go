@@ -1,6 +1,8 @@
 package main
 
-import "gin"
+import (
+	"gin"
+)
 
 func main() {
 	//fmt.Println("Hello, Go")

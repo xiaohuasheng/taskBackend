@@ -16,6 +16,12 @@ func IndexApi(c *gin.Context) {
 func AddTaskApi(c *gin.Context) {
 	name := c.Request.FormValue("name")
 	taskType, _ := strconv.Atoi(c.Request.FormValue("type"))
+	if name == "" || taskType == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": "name或type为空",
+		})
+		return
+	}
 
 	p := Task{Name: name, Type: taskType}
 
@@ -31,9 +37,19 @@ func AddTaskApi(c *gin.Context) {
 
 func GetTasksApi(c *gin.Context) {
 	var task Task
-	persons := make([]Task, 0)
-	persons, _ = task.GetTasks()
-	c.JSON(http.StatusOK, persons)
+	taskList := make([]Task, 0)
+	taskList, _ = task.GetTasks()
+
+	typeTaskMap := make(map[int][]Task)
+	for _, task := range taskList {
+		if _, ok := typeTaskMap[task.Type]; ok {
+			//存在
+			typeTaskMap[task.Type] = append(typeTaskMap[task.Type], task)
+		} else {
+			typeTaskMap[task.Type] = []Task{task}
+		}
+	}
+	c.JSON(http.StatusOK, typeTaskMap)
 }
 
 func GetTaskApi(c *gin.Context) {

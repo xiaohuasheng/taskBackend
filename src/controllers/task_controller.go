@@ -77,7 +77,8 @@ func ModTaskApi(c *gin.Context) {
 	ra := ModTask(task)
 	msg := fmt.Sprintf("Update task %d successful %d", task.Id, ra)
 	c.JSON(http.StatusOK, gin.H{
-		"msg": msg,
+		"data": ra,
+		"msg":  msg,
 	})
 }
 
@@ -90,6 +91,7 @@ func DelTaskApi(c *gin.Context) {
 	ra := DelTask(id)
 	msg := fmt.Sprintf("Delete task %d successful %d", id, ra)
 	c.JSON(http.StatusOK, gin.H{
-		"msg": msg,
+		"data": ra,
+		"msg":  msg,
 	})
 }

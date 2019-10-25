@@ -31,7 +31,8 @@ func AddTaskApi(c *gin.Context) {
 	}
 	msg := fmt.Sprintf("insert successful %d", ra)
 	c.JSON(http.StatusOK, gin.H{
-		"msg": msg,
+		"data": ra,
+		"msg":  msg,
 	})
 }
 

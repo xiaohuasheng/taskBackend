@@ -14,15 +14,14 @@ func InitRouter() *gin.Engine {
 
 	router.GET("/", IndexApi)
 
-	router.POST("/task", AddTaskApi)
-
-	router.GET("/tasks", GetTasksApi)
-
-	router.GET("/task/:id", GetTaskApi)
-
-	router.PUT("/task/:id", ModTaskApi)
-
-	router.DELETE("/task/:id", DelTaskApi)
+	v1 := router.Group("/api")
+	{
+		v1.POST("/task", AddTaskApi)
+		v1.GET("/tasks", GetTasksApi)
+		v1.GET("/task/:id", GetTaskApi)
+		v1.PUT("/task/:id", ModTaskApi)
+		v1.DELETE("/task/:id", DelTaskApi)
+	}
 
 	Cors()
 

@@ -29,7 +29,8 @@ func initDB() *DB {
 	var c Config
 	c.GetConf()
 	//dataSourceName := "root:123456@tcp(192.168.205.3:3306)/task?tls=skip-verify&autocommit=true"
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/task?tls=skip-verify&autocommit=true", c.DBConfig.User, c.DBConfig.Password, c.DBConfig.Host, c.DBConfig.Port)
+	//dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/task?tls=skip-verify&autocommit=true", c.DBConfig.User, c.DBConfig.Password, c.DBConfig.Host, c.DBConfig.Port)
+	dataSourceName := fmt.Sprintf("%s:%s@(%s:%d)/task", c.DBConfig.User, c.DBConfig.Password, c.DBConfig.Host, c.DBConfig.Port)
 	fmt.Println(dataSourceName)
 	SqlDB, err := Open("mysql", dataSourceName)
 	if err != nil {

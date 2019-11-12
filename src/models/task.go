@@ -27,7 +27,7 @@ func (p *Task) AddTask() (id int64, err error) {
 
 func (p *Task) GetTasks() (persons []Task, err error) {
 	persons = make([]Task, 0)
-	rows, err := GetDB().Query("SELECT id,name,type,status,create_time,update_time FROM task where status=0")
+	rows, err := GetDB().Query("SELECT id,name,type,status,create_time,update_time FROM task where status=0 order by sort")
 
 	if err != nil {
 		return
@@ -77,6 +77,24 @@ func DelTask(id int) int64 {
 	defer stmt.Close()
 	timeUnix := time.Now().Unix()
 	rs, err := stmt.Exec(timeUnix, id)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	ra, err := rs.RowsAffected()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return ra
+}
+
+func UpdateTaskSort(id int, sort int) int64 {
+	stmt, err := GetDB().Prepare("UPDATE task SET sort=?, update_time=? WHERE id=?")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer stmt.Close()
+	timeUnix := time.Now().Unix()
+	rs, err := stmt.Exec(sort, timeUnix, id)
 	if err != nil {
 		log.Fatalln(err)
 	}

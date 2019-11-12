@@ -7,6 +7,7 @@ import (
 	. "models"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 func IndexApi(c *gin.Context) {
@@ -92,6 +93,27 @@ func DelTaskApi(c *gin.Context) {
 	msg := fmt.Sprintf("Delete task %d successful %d", id, ra)
 	c.JSON(http.StatusOK, gin.H{
 		"data": ra,
+		"msg":  msg,
+	})
+}
+
+func UpdateTaskSortApi(c *gin.Context) {
+	idStrList := strings.Split(c.Request.FormValue("idList"), ",")
+	res := 1
+	for sort, value := range idStrList {
+		//fmt.Println(index, "\t",value)
+		fmt.Println(value)
+		id, error := strconv.Atoi(value)
+		if error != nil {
+			fmt.Println("字符串转换成整数失败")
+			res = 0
+			break
+		}
+		UpdateTaskSort(id, sort)
+	}
+	msg := "排序更新成功"
+	c.JSON(http.StatusOK, gin.H{
+		"data": res,
 		"msg":  msg,
 	})
 }

@@ -20,6 +20,7 @@ func InitRouter() *gin.Engine {
 		v1.GET("/tasks", GetTasksApi)
 		v1.GET("/task/:id", GetTaskApi)
 		v1.PUT("/task/:id", ModTaskApi)
+		v1.POST("/task_list/sort", UpdateTaskSortApi)
 		v1.DELETE("/task/:id", DelTaskApi)
 	}
 

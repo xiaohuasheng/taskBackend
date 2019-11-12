@@ -6,6 +6,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"os"
 )
 
 var SqlDB *DB
@@ -28,9 +29,14 @@ func initDB() *DB {
 	fmt.Println("开始初始化...")
 	var c Config
 	c.GetConf()
-	//dataSourceName := "root:123456@tcp(192.168.205.3:3306)/task?tls=skip-verify&autocommit=true"
-	//dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/task?tls=skip-verify&autocommit=true", c.DBConfig.User, c.DBConfig.Password, c.DBConfig.Host, c.DBConfig.Port)
-	dataSourceName := fmt.Sprintf("%s:%s@(%s:%d)/task", c.DBConfig.User, c.DBConfig.Password, c.DBConfig.Host, c.DBConfig.Port)
+
+	env := os.Getenv("ENV")
+	var dataSourceName string
+	if "dev" == env {
+		dataSourceName = "root:123456@tcp(192.168.205.3:3306)/task?tls=skip-verify&autocommit=true"
+	} else {
+		dataSourceName = fmt.Sprintf("%s:%s@(%s:%d)/task", c.DBConfig.User, c.DBConfig.Password, c.DBConfig.Host, c.DBConfig.Port)
+	}
 	fmt.Println(dataSourceName)
 	SqlDB, err := Open("mysql", dataSourceName)
 	if err != nil {
